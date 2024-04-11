@@ -4,6 +4,7 @@ import com.bobocode.checklist.entity.CheckList;
 import com.bobocode.checklist.entity.Task;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -29,9 +30,21 @@ public class ChecklistService {
         checkList.addTask(task);
     }
 
-    public void updateTaskStatus(Task updatedTask) {
-        
+    public Task updateTask(Task updatedTask) {
+        Long listId = updatedTask.getListId();
+        List<Task> tasks = taskListByIdMap.get(listId)
+                .getTasks();
+        tasks.stream()
+                .filter(task -> task.getId().equals(updatedTask.getId()))
+                .findAny()
+                .ifPresent(task -> {
+                    task.setTitle(updatedTask.getTitle());
+                    task.setCompleted(updatedTask.isCompleted());
+                });
+
+        return updatedTask;
     }
+
     public CheckList getListById(Long checkListId) {
         return taskListByIdMap.get(checkListId);
     }
