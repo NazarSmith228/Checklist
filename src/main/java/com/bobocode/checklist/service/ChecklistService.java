@@ -24,6 +24,11 @@ public class ChecklistService {
         return checkList;
     }
 
+    public void addTaskToList(CheckList checkList, Task task) {
+        task.setId(taskIdGenerator.incrementAndGet());
+        checkList.addTask(task);
+    }
+
     public void updateTaskStatus(Task updatedTask) {
         
     }
