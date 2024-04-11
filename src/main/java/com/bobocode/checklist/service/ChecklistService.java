@@ -1,6 +1,7 @@
 package com.bobocode.checklist.service;
 
 import com.bobocode.checklist.entity.CheckList;
+import com.bobocode.checklist.entity.Task;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -21,5 +22,12 @@ public class ChecklistService {
         taskListByIdMap.put(generatedId, checkList);
 
         return checkList;
+    }
+
+    public void updateTaskStatus(Task updatedTask) {
+        
+    }
+    public CheckList getListById(Long checkListId) {
+        return taskListByIdMap.get(checkListId);
     }
 }
