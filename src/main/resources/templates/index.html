@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title>CheckList Application</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:src="@{/js/script.js}"></script>
 </head>
 <body>
-<form action="/add" method="post">
-    <input type="text" name="name" placeholder="New task">
-    <input type="submit" value="Add">
+<h1>CheckList Application</h1>
+
+<form th:action="@{/api/checklist/}" method="post">
+    <input type="text" name="title" placeholder="Checklist title">
+    <button type="submit">Create Checklist</button>
 </form>
-<ul>
-    <li th:each="task : ${tasks}">
-        <form action="/toggle" method="post">
-            <input type="hidden" th:value="${task.id}" name="id">
-            <input type="checkbox" th:checked="${task.completed}">
-            <span th:text="${task.name}"></span>
-            <input type="submit" value="Toggle">
-        </form>
-    </li>
-</ul>
+
+<div th:each="checklist : ${checklists}">
+    <h2 th:text="${checklist.title}"></h2>
+
+    <form th:action="@{/api/checklist/ + ${checklist.id} + '/task'}" method="post">
+        <input type="text" name="title" placeholder="Task title">
+        <button type="submit">Add Task</button>
+    </form>
+
+    <ul>
+        <li th:each="task : ${checklist.tasks}">
+            <form th:action="@{/api/checklist/ + ${checklist.id} + '/task/' + ${task.id}}" method="post">
+                <input type="checkbox" th:checked="${task.isCompleted}" readonly>
+                <span th:text="${task.title}"></span>
+                <button type="submit">Toggle Task</button>
+            </form>
+        </li>
+    </ul>
+</div>
 </body>
 </html>
