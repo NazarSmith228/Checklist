@@ -17,7 +17,7 @@ public class CheckListController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("tasks", taskRepository.findAll());
+        model.addAttribute("tasks", checklistService.findAll());
         return "index";
     }
 
